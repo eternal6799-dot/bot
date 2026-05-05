@@ -16,24 +16,24 @@ START_BALANCE = 500
 DAILY_BONUS = 250
 CASINO_MIN_BET = 10
 BOT_NAME = os.environ.get("BOT_NAME", "Eternal")
-ROULETTE_COLORS = {"red": "рџ”ґ", "black": "вљ«", "green": "рџџў"}
+ROULETTE_COLORS = {"red": "🔴", "black": "⚫", "green": "🟢"}
 ADMIN_IDS = {8439166906}
 PETER_ONLY_MODE = True
 # You can place token directly here.
 BOT_TOKEN = "8798997241:AAHa1gXM3B4nW-Z8PUItCEvA8FAsN-ejD5c"
-RPS_CHOICES = {"РєР°РјРµРЅСЊ": "rock", "РЅРѕР¶РЅРёС†С‹": "scissors", "Р±СѓРјР°РіР°": "paper", "rock": "rock", "scissors": "scissors", "paper": "paper"}
+RPS_CHOICES = {"камень": "rock", "ножницы": "scissors", "бумага": "paper", "rock": "rock", "scissors": "scissors", "paper": "paper"}
 QUIZ_QUESTIONS = [
-    {"q": "РЎРєРѕР»СЊРєРѕ РґРЅРµР№ РІ РІРёСЃРѕРєРѕСЃРЅРѕРј РіРѕРґСѓ?", "a": "366"},
-    {"q": "РЎС‚РѕР»РёС†Р° РЇРїРѕРЅРёРё?", "a": "С‚РѕРєРёРѕ"},
-    {"q": "2 РІ СЃС‚РµРїРµРЅРё 5 = ?", "a": "32"},
+    {"q": "Сколько дней в високосном году?", "a": "366"},
+    {"q": "Столица Японии?", "a": "токио"},
+    {"q": "2 в степени 5 = ?", "a": "32"},
 ]
 MAGIC_ANSWERS = [
-    "Р”Р°.",
-    "РќРµС‚.",
-    "РЎРєРѕСЂРµРµ РІСЃРµРіРѕ РґР°.",
-    "РЎРїСЂРѕСЃРё РїРѕР·Р¶Рµ.",
-    "РЁР°РЅСЃС‹ С…РѕСЂРѕС€РёРµ.",
-    "Р›СѓС‡С€Рµ РЅРµ РЅР°РґРѕ.",
+    "Да.",
+    "Нет.",
+    "Скорее всего да.",
+    "Спроси позже.",
+    "Шансы хорошие.",
+    "Лучше не надо.",
 ]
 PETER_GRIFFIN_IMAGES = [
     "https://media.tenor.com/4P0GZ8Kf4fUAAAAC/peter-griffin-family-guy.gif",
@@ -59,25 +59,25 @@ PETER_GRIFFIN_IMAGES = [
 ]
 UNI_CARD_POOL = [
     {
-        "name": "РћР±С‹С‡РЅР°СЏ РєР°СЂС‚Р° РџРёС‚РµСЂР°",
+        "name": "Обычная карта Питера",
         "rarity": "common",
         "chance": 0.60,
         "multiplier": 1.3,
     },
     {
-        "name": "Р РµРґРєР°СЏ РєР°СЂС‚Р° РџРёС‚РµСЂР°",
+        "name": "Редкая карта Питера",
         "rarity": "rare",
         "chance": 0.28,
         "multiplier": 2.2,
     },
     {
-        "name": "Р­РїРёС‡РµСЃРєР°СЏ РєР°СЂС‚Р° РџРёС‚РµСЂР°",
+        "name": "Эпическая карта Питера",
         "rarity": "epic",
         "chance": 0.10,
         "multiplier": 4.0,
     },
     {
-        "name": "Р›Р•Р“Р•РќР”РђР РќРђРЇ РєР°СЂС‚Р° РџРРўР•Р Рђ",
+        "name": "ЛЕГЕНДАРНАЯ карта ПИТЕРА",
         "rarity": "legendary",
         "chance": 0.02,
         "multiplier": 9.0,
@@ -194,7 +194,7 @@ class Storage:
 
 
 def spin_slots() -> CasinoResult:
-    symbols_pool = ["рџЌ’", "рџЌ‹", "рџЌ‡", "рџ””", "рџ’Ћ", "7пёЏвѓЈ"]
+    symbols_pool = ["🍒", "🍋", "🍇", "🔔", "💎", "7️⃣"]
     # Higher win chance: 60% we force at least a pair.
     if random.random() < 0.60:
         main = random.choice(symbols_pool)
@@ -203,13 +203,13 @@ def spin_slots() -> CasinoResult:
     else:
         symbols = [random.choice(symbols_pool) for _ in range(3)]
 
-    if symbols == ["7пёЏвѓЈ", "7пёЏвѓЈ", "7пёЏвѓЈ"]:
-        return CasinoResult(symbols, 10.0, "Р”Р¶РµРєРїРѕС‚!")
+    if symbols == ["7️⃣", "7️⃣", "7️⃣"]:
+        return CasinoResult(symbols, 10.0, "Джекпот!")
     if symbols[0] == symbols[1] == symbols[2]:
-        return CasinoResult(symbols, 4.5, "РўСЂРѕР№РЅРѕРµ СЃРѕРІРїР°РґРµРЅРёРµ")
+        return CasinoResult(symbols, 4.5, "Тройное совпадение")
     if len(set(symbols)) == 2:
-        return CasinoResult(symbols, 2.0, "РџР°СЂР° СЃРёРјРІРѕР»РѕРІ")
-    return CasinoResult(symbols, 0.0, "РњРёРјРѕ")
+        return CasinoResult(symbols, 2.0, "Пара символов")
+    return CasinoResult(symbols, 0.0, "Мимо")
 
 
 def parse_bet(text: str) -> int | None:
@@ -333,25 +333,25 @@ def resolve_user_label(user_key: str, user_data: dict) -> str:
 
 def build_help() -> str:
     return (
-        f"рџЋ® {BOT_NAME} вЂ” РєРѕРјР°РЅРґС‹ Р±РѕС‚Р°:\n"
-        "/start вЂ” РЅР°С‡Р°С‚СЊ РёРіСЂСѓ\n"
-        "/balance вЂ” РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р±Р°Р»Р°РЅСЃ\n"
-        "/profile вЂ” РїСЂРѕС„РёР»СЊ Рё СѓСЂРѕРІРµРЅСЊ\n"
-        "/top вЂ” Р»РёРґРµСЂР±РѕСЂРґ\n"
-        "/daily вЂ” РµР¶РµРґРЅРµРІРЅС‹Р№ Р±РѕРЅСѓСЃ\n"
-        "/casino <СЃС‚Р°РІРєР°> вЂ” СЃС‹РіСЂР°С‚СЊ РІ СЃР»РѕС‚С‹\n"
-        "/coin <РѕСЂРµР»|СЂРµС€РєР°> <СЃС‚Р°РІРєР°> вЂ” РјРѕРЅРµС‚РєР°\n"
-        "/dice <СЃС‚Р°РІРєР°> вЂ” РєСѓР±РёРє РїСЂРѕС‚РёРІ Р±РѕС‚Р°\n"
-        "/roulette <red|black|green> <СЃС‚Р°РІРєР°> вЂ” СЂСѓР»РµС‚РєР°\n"
-        "/unicard <СЃС‚Р°РІРєР°> вЂ” РєР°СЂС‚Р° СЃ РџРёС‚РµСЂРѕРј Р“СЂРёС„С„РёРЅРѕРј\n"
-        "/rps <РєР°РјРµРЅСЊ|РЅРѕР¶РЅРёС†С‹|Р±СѓРјР°РіР°> вЂ” РєР°РјРµРЅСЊ-РЅРѕР¶РЅРёС†С‹-Р±СѓРјР°РіР°\n"
-        "/guess <1-5> вЂ” СѓРіР°РґР°Р№ С‡РёСЃР»Рѕ\n"
-        "/quiz <РѕС‚РІРµС‚> вЂ” РјРёРЅРё-РІРёРєС‚РѕСЂРёРЅР°\n"
-        "/8ball <РІРѕРїСЂРѕСЃ> вЂ” РјР°РіРёС‡РµСЃРєРёР№ С€Р°СЂ\n"
-        "/rate <С‚РµРєСЃС‚> вЂ” РѕС†РµРЅРєР° РѕС‚ 1 РґРѕ 10\n"
-        "/admin вЂ” Р°РґРјРёРЅ-РєРѕРјР°РЅРґС‹\n"
-        "/help вЂ” СЃРїРёСЃРѕРє РєРѕРјР°РЅРґ\n\n"
-        "РџСЂРёРјРµСЂС‹: /casino 50, /rps РєР°РјРµРЅСЊ, /guess 3, /8ball СЏ СЃС‚Р°РЅСѓ Р±РѕРіР°С‚С‹Рј?"
+        f"🎮 {BOT_NAME} — команды бота:\n"
+        "/start — начать игру\n"
+        "/balance — посмотреть баланс\n"
+        "/profile — профиль и уровень\n"
+        "/top — лидерборд\n"
+        "/daily — ежедневный бонус\n"
+        "/casino <ставка> — сыграть в слоты\n"
+        "/coin <орел|решка> <ставка> — монетка\n"
+        "/dice <ставка> — кубик против бота\n"
+        "/roulette <red|black|green> <ставка> — рулетка\n"
+        "/unicard <ставка> — карта с Питером Гриффином\n"
+        "/rps <камень|ножницы|бумага> — камень-ножницы-бумага\n"
+        "/guess <1-5> — угадай число\n"
+        "/quiz <ответ> — мини-викторина\n"
+        "/8ball <вопрос> — магический шар\n"
+        "/rate <текст> — оценка от 1 до 10\n"
+        "/admin — админ-команды\n"
+        "/help — список команд\n\n"
+        "Примеры: /casino 50, /rps камень, /guess 3, /8ball я стану богатым?"
     )
 
 
@@ -359,7 +359,7 @@ def get_token() -> str:
     token = BOT_TOKEN.strip() or os.environ.get("BOT_TOKEN", "").strip()
     if not token:
         raise RuntimeError(
-            "РќРµ РЅР°Р№РґРµРЅ BOT_TOKEN. РЈРєР°Р¶Рё РµРіРѕ РІ РїРµСЂРµРјРµРЅРЅРѕР№ BOT_TOKEN РёР»Рё РІ BOT_TOKEN РІРЅСѓС‚СЂРё bot.py."
+            "Не найден BOT_TOKEN. Укажи его в переменной BOT_TOKEN или в BOT_TOKEN внутри bot.py."
         )
     return token
 
@@ -385,8 +385,8 @@ async def main() -> None:
     async def start_handler(message: Message) -> None:
         _, user = current_user(message)
         await message.answer(
-            f"Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ {BOT_NAME} Casino Bot!\n"
-            f"РўРІРѕР№ СЃС‚Р°СЂС‚РѕРІС‹Р№ Р±Р°Р»Р°РЅСЃ: {format_balance(user['balance'])} РјРѕРЅРµС‚.\n\n"
+            f"Добро пожаловать в {BOT_NAME} Casino Bot!\n"
+            f"Твой стартовый баланс: {format_balance(user['balance'])} монет.\n\n"
             + build_help()
         )
 
@@ -397,25 +397,25 @@ async def main() -> None:
     @dp.message(Command("balance"))
     async def balance_handler(message: Message) -> None:
         _, user = current_user(message)
-        await message.answer(f"рџ’° РўРІРѕР№ Р±Р°Р»Р°РЅСЃ: {format_balance(user['balance'])} РјРѕРЅРµС‚.")
+        await message.answer(f"💰 Твой баланс: {format_balance(user['balance'])} монет.")
 
     @dp.message(Command("profile"))
     async def profile_handler(message: Message) -> None:
         _, user = current_user(message)
         next_need = xp_for_next_level(user["level"])
         await message.answer(
-            f"рџ‘¤ РџСЂРѕС„РёР»СЊ\n"
-            f"РЈСЂРѕРІРµРЅСЊ: {user['level']}\n"
+            f"👤 Профиль\n"
+            f"Уровень: {user['level']}\n"
             f"XP: {user['xp']} / {next_need}\n"
-            f"РЎС‹РіСЂР°РЅРѕ РёРіСЂ: {user['games_played']}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"Сыграно игр: {user['games_played']}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
 
     @dp.message(Command("top"))
     async def top_handler(message: Message) -> None:
         users = storage.all_users()
         if not users:
-            await message.answer("Р›РёРґРµСЂР±РѕСЂРґ РїРѕРєР° РїСѓСЃС‚.")
+            await message.answer("Лидерборд пока пуст.")
             return
 
         ranked = sorted(
@@ -423,11 +423,11 @@ async def main() -> None:
             key=lambda item: (item[1].get("balance", 0), item[1].get("level", 1)),
             reverse=True,
         )[:10]
-        lines = ["рџЏ† РўРѕРї РёРіСЂРѕРєРѕРІ РїРѕ Р±Р°Р»Р°РЅСЃСѓ:"]
+        lines = ["🏆 Топ игроков по балансу:"]
         for idx, (uid, udata) in enumerate(ranked, start=1):
             label = resolve_user_label(uid, udata)
             lines.append(
-                f"{idx}. {label} вЂ” {format_balance(udata.get('balance', 0))} | "
+                f"{idx}. {label} — {format_balance(udata.get('balance', 0))} | "
                 f"LVL {udata.get('level', 1)}"
             )
         await message.answer("\n".join(lines))
@@ -437,7 +437,7 @@ async def main() -> None:
         user_key, user = current_user(message)
         today = date.today().isoformat()
         if user["last_daily"] == today:
-            await message.answer("РЎРµРіРѕРґРЅСЏ Р±РѕРЅСѓСЃ СѓР¶Рµ Р·Р°Р±СЂР°РЅ. Р’РѕР·РІСЂР°С‰Р°Р№СЃСЏ Р·Р°РІС‚СЂР°.")
+            await message.answer("Сегодня бонус уже забран. Возвращайся завтра.")
             return
 
         user["balance"] += DAILY_BONUS
@@ -445,24 +445,24 @@ async def main() -> None:
         add_xp(user, 15)
         storage.update_user(user_key, user)
         await message.answer(
-            f"рџЋЃ РўС‹ РїРѕР»СѓС‡РёР» РµР¶РµРґРЅРµРІРЅС‹Р№ Р±РѕРЅСѓСЃ: +{DAILY_BONUS} РјРѕРЅРµС‚.\n"
-            f"РўРµРєСѓС‰РёР№ Р±Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"🎁 Ты получил ежедневный бонус: +{DAILY_BONUS} монет.\n"
+            f"Текущий баланс: {format_balance(user['balance'])}"
         )
 
     @dp.message(Command("casino"))
     async def casino_handler(message: Message) -> None:
         bet = parse_bet(message.text or "")
         if bet is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /casino <СЃС‚Р°РІРєР°>\nРџСЂРёРјРµСЂ: /casino 100")
+            await message.answer("Использование: /casino <ставка>\nПример: /casino 100")
             return
 
         if bet < CASINO_MIN_BET:
-            await message.answer(f"РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃС‚Р°РІРєР°: {CASINO_MIN_BET} РјРѕРЅРµС‚.")
+            await message.answer(f"Минимальная ставка: {CASINO_MIN_BET} монет.")
             return
 
         user_key, user = current_user(message)
         if bet > user["balance"]:
-            await message.answer("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРѕРЅРµС‚ РґР»СЏ С‚Р°РєРѕР№ СЃС‚Р°РІРєРё.")
+            await message.answer("Недостаточно монет для такой ставки.")
             return
 
         result = spin_slots()
@@ -473,14 +473,14 @@ async def main() -> None:
         storage.update_user(user_key, user)
 
         reply = (
-            f"рџЋ° {' | '.join(result.symbols)}\n"
+            f"🎰 {' | '.join(result.symbols)}\n"
             f"{result.title}\n"
-            f"РЎС‚Р°РІРєР°: {format_balance(bet)}\n"
-            f"Р’С‹РёРіСЂС‹С€: {format_balance(win_amount)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"Ставка: {format_balance(bet)}\n"
+            f"Выигрыш: {format_balance(win_amount)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("coin"))
@@ -488,23 +488,23 @@ async def main() -> None:
         parsed = parse_choice_bet(message.text or "")
         if parsed is None:
             await message.answer(
-                "РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /coin <РѕСЂРµР»|СЂРµС€РєР°> <СЃС‚Р°РІРєР°>\nРџСЂРёРјРµСЂ: /coin РѕСЂРµР» 50"
+                "Использование: /coin <орел|решка> <ставка>\nПример: /coin орел 50"
             )
             return
 
         choice_raw, bet = parsed
-        choice_map = {"РѕСЂРµР»": "heads", "СЂРµС€РєР°": "tails", "heads": "heads", "tails": "tails"}
+        choice_map = {"орел": "heads", "решка": "tails", "heads": "heads", "tails": "tails"}
         choice = choice_map.get(choice_raw)
         if choice is None:
-            await message.answer("Р’С‹Р±РµСЂРё СЃС‚РѕСЂРѕРЅСѓ: РѕСЂРµР» РёР»Рё СЂРµС€РєР°.")
+            await message.answer("Выбери сторону: орел или решка.")
             return
         if bet < CASINO_MIN_BET:
-            await message.answer(f"РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃС‚Р°РІРєР°: {CASINO_MIN_BET} РјРѕРЅРµС‚.")
+            await message.answer(f"Минимальная ставка: {CASINO_MIN_BET} монет.")
             return
 
         user_key, user = current_user(message)
         if bet > user["balance"]:
-            await message.answer("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРѕРЅРµС‚ РґР»СЏ С‚Р°РєРѕР№ СЃС‚Р°РІРєРё.")
+            await message.answer("Недостаточно монет для такой ставки.")
             return
 
         # 60% chance to land on player's choice.
@@ -516,31 +516,31 @@ async def main() -> None:
         gained_levels, level_up = add_xp(user, 12)
         storage.update_user(user_key, user)
 
-        result_ru = "РѕСЂРµР»" if result == "heads" else "СЂРµС€РєР°"
+        result_ru = "орел" if result == "heads" else "решка"
         reply = (
-            f"рџЄ™ Р’С‹РїР°Р»Рѕ: {result_ru}\n"
-            f"{'РџРѕР±РµРґР°!' if won else 'РџСЂРѕРёРіСЂС‹С€'}\n"
-            f"РЎС‚Р°РІРєР°: {format_balance(bet)}\n"
-            f"Р’С‹РёРіСЂС‹С€: {format_balance(win_amount)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"🪙 Выпало: {result_ru}\n"
+            f"{'Победа!' if won else 'Проигрыш'}\n"
+            f"Ставка: {format_balance(bet)}\n"
+            f"Выигрыш: {format_balance(win_amount)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("dice"))
     async def dice_handler(message: Message) -> None:
         bet = parse_bet(message.text or "")
         if bet is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /dice <СЃС‚Р°РІРєР°>\nРџСЂРёРјРµСЂ: /dice 80")
+            await message.answer("Использование: /dice <ставка>\nПример: /dice 80")
             return
         if bet < CASINO_MIN_BET:
-            await message.answer(f"РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃС‚Р°РІРєР°: {CASINO_MIN_BET} РјРѕРЅРµС‚.")
+            await message.answer(f"Минимальная ставка: {CASINO_MIN_BET} монет.")
             return
 
         user_key, user = current_user(message)
         if bet > user["balance"]:
-            await message.answer("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРѕРЅРµС‚ РґР»СЏ С‚Р°РєРѕР№ СЃС‚Р°РІРєРё.")
+            await message.answer("Недостаточно монет для такой ставки.")
             return
 
         # Bias in player's favor.
@@ -548,27 +548,27 @@ async def main() -> None:
         bot_roll = random.randint(1, 5)
         if player_roll > bot_roll:
             win_amount = int(bet * 1.9)
-            title = "РўС‹ РїРѕР±РµРґРёР» Р±РѕС‚Р°!"
+            title = "Ты победил бота!"
         elif player_roll == bot_roll:
             win_amount = bet
-            title = "РќРёС‡СЊСЏ"
+            title = "Ничья"
         else:
             win_amount = 0
-            title = "Р‘РѕС‚ РїРѕР±РµРґРёР»"
+            title = "Бот победил"
 
         user["balance"] = user["balance"] - bet + win_amount
         user["games_played"] += 1
         gained_levels, level_up = add_xp(user, 16)
         storage.update_user(user_key, user)
         reply = (
-            f"рџЋІ РўС‹: {player_roll} | Р‘РѕС‚: {bot_roll}\n"
+            f"🎲 Ты: {player_roll} | Бот: {bot_roll}\n"
             f"{title}\n"
-            f"РЎС‚Р°РІРєР°: {format_balance(bet)}\n"
-            f"Р’С‹РёРіСЂС‹С€: {format_balance(win_amount)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"Ставка: {format_balance(bet)}\n"
+            f"Выигрыш: {format_balance(win_amount)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("roulette"))
@@ -576,22 +576,22 @@ async def main() -> None:
         parsed = parse_choice_bet(message.text or "")
         if parsed is None:
             await message.answer(
-                "РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /roulette <red|black|green> <СЃС‚Р°РІРєР°>\n"
-                "РџСЂРёРјРµСЂ: /roulette red 100"
+                "Использование: /roulette <red|black|green> <ставка>\n"
+                "Пример: /roulette red 100"
             )
             return
 
         color, bet = parsed
         if color not in ROULETTE_COLORS:
-            await message.answer("Р’С‹Р±РµСЂРё С†РІРµС‚: red, black РёР»Рё green.")
+            await message.answer("Выбери цвет: red, black или green.")
             return
         if bet < CASINO_MIN_BET:
-            await message.answer(f"РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃС‚Р°РІРєР°: {CASINO_MIN_BET} РјРѕРЅРµС‚.")
+            await message.answer(f"Минимальная ставка: {CASINO_MIN_BET} монет.")
             return
 
         user_key, user = current_user(message)
         if bet > user["balance"]:
-            await message.answer("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРѕРЅРµС‚ РґР»СЏ С‚Р°РєРѕР№ СЃС‚Р°РІРєРё.")
+            await message.answer("Недостаточно монет для такой ставки.")
             return
 
         # 60% chance roulette lands on selected color.
@@ -615,25 +615,25 @@ async def main() -> None:
         storage.update_user(user_key, user)
 
         reply = (
-            f"рџЋЎ Р’С‹РїР°Р»Рѕ: {ROULETTE_COLORS[result_color]} {result_color}\n"
-            f"{'РџРѕР±РµРґР°!' if won else 'РњРёРјРѕ'}\n"
-            f"РЎС‚Р°РІРєР°: {format_balance(bet)}\n"
-            f"Р’С‹РёРіСЂС‹С€: {format_balance(win_amount)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"🎡 Выпало: {ROULETTE_COLORS[result_color]} {result_color}\n"
+            f"{'Победа!' if won else 'Мимо'}\n"
+            f"Ставка: {format_balance(bet)}\n"
+            f"Выигрыш: {format_balance(win_amount)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("rps"))
     async def rps_handler(message: Message) -> None:
         pick_raw = parse_single_word_arg(message.text or "")
         if pick_raw is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /rps <РєР°РјРµРЅСЊ|РЅРѕР¶РЅРёС†С‹|Р±СѓРјР°РіР°>")
+            await message.answer("Использование: /rps <камень|ножницы|бумага>")
             return
         player = RPS_CHOICES.get(pick_raw)
         if player is None:
-            await message.answer("Р’С‹Р±РѕСЂ: РєР°РјРµРЅСЊ, РЅРѕР¶РЅРёС†С‹ РёР»Рё Р±СѓРјР°РіР°.")
+            await message.answer("Выбор: камень, ножницы или бумага.")
             return
 
         # 55% chance player wins, 20% draw, rest loses.
@@ -646,20 +646,20 @@ async def main() -> None:
             bot_pick = player
         else:
             bot_pick = loses_map[player]
-        labels = {"rock": "РєР°РјРµРЅСЊ", "scissors": "РЅРѕР¶РЅРёС†С‹", "paper": "Р±СѓРјР°РіР°"}
+        labels = {"rock": "камень", "scissors": "ножницы", "paper": "бумага"}
         wins = {("rock", "scissors"), ("scissors", "paper"), ("paper", "rock")}
 
         user_key, user = current_user(message)
         if player == bot_pick:
-            title = "РќРёС‡СЊСЏ"
+            title = "Ничья"
             bonus = 20
             xp_gain = 8
         elif (player, bot_pick) in wins:
-            title = "РўС‹ РїРѕР±РµРґРёР»!"
+            title = "Ты победил!"
             bonus = 60
             xp_gain = 18
         else:
-            title = "Р‘РѕС‚ РїРѕР±РµРґРёР»"
+            title = "Бот победил"
             bonus = 0
             xp_gain = 6
 
@@ -668,28 +668,28 @@ async def main() -> None:
         gained_levels, level_up = add_xp(user, xp_gain)
         storage.update_user(user_key, user)
         reply = (
-            f"рџЄЁвњ‚пёЏрџ“„ РўС‹: {labels[player]} | Р‘РѕС‚: {labels[bot_pick]}\n"
+            f"🪨✂️📄 Ты: {labels[player]} | Бот: {labels[bot_pick]}\n"
             f"{title}\n"
-            f"РќР°РіСЂР°РґР°: {format_balance(bonus)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"Награда: {format_balance(bonus)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("unicard"))
     async def unicard_handler(message: Message) -> None:
         bet = parse_bet(message.text or "")
         if bet is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /unicard <СЃС‚Р°РІРєР°>\nРџСЂРёРјРµСЂ: /unicard 100")
+            await message.answer("Использование: /unicard <ставка>\nПример: /unicard 100")
             return
         if bet < CASINO_MIN_BET:
-            await message.answer(f"РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃС‚Р°РІРєР°: {CASINO_MIN_BET} РјРѕРЅРµС‚.")
+            await message.answer(f"Минимальная ставка: {CASINO_MIN_BET} монет.")
             return
 
         user_key, user = current_user(message)
         if bet > user["balance"]:
-            await message.answer("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРѕРЅРµС‚ РґР»СЏ С‚Р°РєРѕР№ СЃС‚Р°РІРєРё.")
+            await message.answer("Недостаточно монет для такой ставки.")
             return
 
         card = spin_uni_card()
@@ -700,29 +700,29 @@ async def main() -> None:
         storage.update_user(user_key, user)
 
         caption = (
-            f"рџѓЏ РўРµР±Рµ РІС‹РїР°Р»Р°: {card['name']}\n"
-            f"Р РµРґРєРѕСЃС‚СЊ: {card['rarity']}\n"
-            f"РЎС‚Р°РІРєР°: {format_balance(bet)}\n"
-            f"Р’С‹РёРіСЂС‹С€: {format_balance(win_amount)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"🃏 Тебе выпала: {card['name']}\n"
+            f"Редкость: {card['rarity']}\n"
+            f"Ставка: {format_balance(bet)}\n"
+            f"Выигрыш: {format_balance(win_amount)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            caption += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            caption += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
 
         try:
             await message.answer_animation(animation=random.choice(PETER_GRIFFIN_IMAGES), caption=caption)
         except Exception:
-            await message.answer(caption + "\n\n(РљР°СЂС‚РёРЅРєР° РІСЂРµРјРµРЅРЅРѕ РЅРµРґРѕСЃС‚СѓРїРЅР°)")
+            await message.answer(caption + "\n\n(Картинка временно недоступна)")
 
     @dp.message(Command("guess"))
     async def guess_handler(message: Message) -> None:
         parts = (message.text or "").strip().split()
         if len(parts) != 2 or not parts[1].isdigit():
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /guess <1-5>\nРџСЂРёРјРµСЂ: /guess 4")
+            await message.answer("Использование: /guess <1-5>\nПример: /guess 4")
             return
         guessed = int(parts[1])
         if guessed < 1 or guessed > 5:
-            await message.answer("Р§РёСЃР»Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РѕС‚ 1 РґРѕ 5.")
+            await message.answer("Число должно быть от 1 до 5.")
             return
 
         # Give better odds in guess game.
@@ -731,23 +731,23 @@ async def main() -> None:
         if guessed == answer:
             reward = 120
             xp_gain = 20
-            title = "РџРѕРїР°Р» РІ С‚РѕС‡РєСѓ!"
+            title = "Попал в точку!"
         else:
             reward = 10
             xp_gain = 7
-            title = "РџРѕС‡С‚Рё, РЅРѕ РјРёРјРѕ."
+            title = "Почти, но мимо."
         user["balance"] += reward
         user["games_played"] += 1
         gained_levels, level_up = add_xp(user, xp_gain)
         storage.update_user(user_key, user)
         reply = (
-            f"рџ”ў Р‘С‹Р»Рѕ С‡РёСЃР»Рѕ: {answer}\n"
+            f"🔢 Было число: {answer}\n"
             f"{title}\n"
-            f"РќР°РіСЂР°РґР°: {format_balance(reward)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"Награда: {format_balance(reward)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("quiz"))
@@ -756,8 +756,8 @@ async def main() -> None:
         if len(parts) != 2:
             q = random.choice(QUIZ_QUESTIONS)
             await message.answer(
-                f"вќ“ Р’РѕРїСЂРѕСЃ: {q['q']}\n"
-                "РћС‚РІРµС‚СЊ РєРѕРјР°РЅРґРѕР№: /quiz <С‚РІРѕР№_РѕС‚РІРµС‚>"
+                f"❓ Вопрос: {q['q']}\n"
+                "Ответь командой: /quiz <твой_ответ>"
             )
             return
 
@@ -772,179 +772,179 @@ async def main() -> None:
         gained_levels, level_up = add_xp(user, xp_gain)
         storage.update_user(user_key, user)
         reply = (
-            f"вќ“ Р’РѕРїСЂРѕСЃ: {q['q']}\n"
-            f"РўРІРѕР№ РѕС‚РІРµС‚: {answer}\n"
-            f"{'Р’РµСЂРЅРѕ!' if correct else 'РќРµРІРµСЂРЅРѕ. РџСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚: ' + q['a']}\n"
-            f"РќР°РіСЂР°РґР°: {format_balance(reward)}\n"
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(user['balance'])}"
+            f"❓ Вопрос: {q['q']}\n"
+            f"Твой ответ: {answer}\n"
+            f"{'Верно!' if correct else 'Неверно. Правильный ответ: ' + q['a']}\n"
+            f"Награда: {format_balance(reward)}\n"
+            f"Баланс: {format_balance(user['balance'])}"
         )
         if level_up:
-            reply += f"\nв¬†пёЏ РќРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ! +{gained_levels} (С‚РµРєСѓС‰РёР№: {user['level']})"
+            reply += f"\n⬆️ Новый уровень! +{gained_levels} (текущий: {user['level']})"
         await message.answer(reply)
 
     @dp.message(Command("8ball"))
     async def ball_handler(message: Message) -> None:
         parts = (message.text or "").strip().split(maxsplit=1)
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /8ball <РІРѕРїСЂРѕСЃ>")
+            await message.answer("Использование: /8ball <вопрос>")
             return
         user_key, user = current_user(message)
         user["games_played"] += 1
         add_xp(user, 4)
         storage.update_user(user_key, user)
-        await send_with_peter(message, f"рџЋ± {random.choice(MAGIC_ANSWERS)}")
+        await send_with_peter(message, f"🎱 {random.choice(MAGIC_ANSWERS)}")
 
     @dp.message(Command("rate"))
     async def rate_handler(message: Message) -> None:
         parts = (message.text or "").strip().split(maxsplit=1)
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /rate <С‡С‚Рѕ_РѕС†РµРЅРёС‚СЊ>")
+            await message.answer("Использование: /rate <что_оценить>")
             return
         user_key, user = current_user(message)
         user["games_played"] += 1
         add_xp(user, 6)
         storage.update_user(user_key, user)
-        await send_with_peter(message, f"рџ“Љ РћС†РµРЅРєР°: {random.randint(1, 10)}/10")
+        await send_with_peter(message, f"📊 Оценка: {random.randint(1, 10)}/10")
 
     @dp.message(Command("admin"))
     async def admin_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         await message.answer(
-            "рџ›  РђРґРјРёРЅ-РїР°РЅРµР»СЊ:\n"
-            "/admin_add <@username> <amount> вЂ” РЅР°РєСЂСѓС‚РёС‚СЊ Р±Р°Р»Р°РЅСЃ\n"
-            "/admin_set <@username> <amount> вЂ” СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р±Р°Р»Р°РЅСЃ\n"
-            "/admin_take <@username> <amount> вЂ” СЃРЅСЏС‚СЊ Р±Р°Р»Р°РЅСЃ\n"
-            "/admin_addxp <@username> <amount> вЂ” РІС‹РґР°С‚СЊ XP\n"
-            "/admin_reset_money <@username> вЂ” РѕР±РЅСѓР»РёС‚СЊ Р±Р°Р»Р°РЅСЃ РёРіСЂРѕРєСѓ\n"
-            "/admin_reset_xp <@username> вЂ” РѕР±РЅСѓР»РёС‚СЊ XP/СѓСЂРѕРІРµРЅСЊ РёРіСЂРѕРєСѓ\n"
-            "/admin_all_money <amount> вЂ” РІС‹РґР°С‚СЊ РІСЃРµРј РёРіСЂРѕРєР°Рј РјРѕРЅРµС‚С‹\n"
-            "/admin_all_level <levels> вЂ” РІС‹РґР°С‚СЊ РІСЃРµРј РёРіСЂРѕРєР°Рј СѓСЂРѕРІРЅРё\n"
-            "/admin_all_reset_money вЂ” РѕР±РЅСѓР»РёС‚СЊ Р±Р°Р»Р°РЅСЃ РІСЃРµРј\n"
-            "/admin_all_reset_xp вЂ” РѕР±РЅСѓР»РёС‚СЊ XP/СѓСЂРѕРІРЅРё РІСЃРµРј\n"
-            "/admin_gamegift <@username> <coins> <xp> вЂ” РЅР°РіСЂР°РґР° Р·Р° РёРІРµРЅС‚\n"
-            "/mute <РјРёРЅСѓС‚С‹> (reply) вЂ” Р·Р°РјСѓС‚РёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ\n"
-            "/unmute (reply) вЂ” СЂР°Р·РјСѓС‚РёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ\n"
-            "/slowmode <СЃРµРєСѓРЅРґС‹> вЂ” РєРґ С‡Р°С‚Р° 0..3600\n"
-            "/admin_stats вЂ” РѕР±С‰Р°СЏ СЃС‚Р°С‚РёСЃС‚РёРєР°"
+            "🛠 Админ-панель:\n"
+            "/admin_add <@username> <amount> — накрутить баланс\n"
+            "/admin_set <@username> <amount> — установить баланс\n"
+            "/admin_take <@username> <amount> — снять баланс\n"
+            "/admin_addxp <@username> <amount> — выдать XP\n"
+            "/admin_reset_money <@username> — обнулить баланс игроку\n"
+            "/admin_reset_xp <@username> — обнулить XP/уровень игроку\n"
+            "/admin_all_money <amount> — выдать всем игрокам монеты\n"
+            "/admin_all_level <levels> — выдать всем игрокам уровни\n"
+            "/admin_all_reset_money — обнулить баланс всем\n"
+            "/admin_all_reset_xp — обнулить XP/уровни всем\n"
+            "/admin_gamegift <@username> <coins> <xp> — награда за ивент\n"
+            "/mute <минуты> (reply) — замутить пользователя\n"
+            "/unmute (reply) — размутить пользователя\n"
+            "/slowmode <секунды> — кд чата 0..3600\n"
+            "/admin_stats — общая статистика"
         )
 
     @dp.message(Command("admin_add"))
     async def admin_add_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parsed = parse_admin_balance_cmd(message.text or "")
         if parsed is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_add <@username> <amount>")
+            await message.answer("Использование: /admin_add <@username> <amount>")
             return
         target_username, amount = parsed
         if amount <= 0:
-            await message.answer("РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0.")
+            await message.answer("Сумма должна быть больше 0.")
             return
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["balance"] += amount
         storage.update_user(target_key, target)
         await message.answer(
-            f"Р“РѕС‚РѕРІРѕ. @{target_username} РїРѕР»СѓС‡РёР» +{format_balance(amount)}. "
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(target['balance'])}"
+            f"Готово. @{target_username} получил +{format_balance(amount)}. "
+            f"Баланс: {format_balance(target['balance'])}"
         )
 
     @dp.message(Command("admin_set"))
     async def admin_set_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parsed = parse_admin_balance_cmd(message.text or "")
         if parsed is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_set <@username> <amount>")
+            await message.answer("Использование: /admin_set <@username> <amount>")
             return
         target_username, amount = parsed
         if amount < 0:
-            await message.answer("Р‘Р°Р»Р°РЅСЃ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј.")
+            await message.answer("Баланс не может быть отрицательным.")
             return
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["balance"] = amount
         storage.update_user(target_key, target)
         await message.answer(
-            f"Р“РѕС‚РѕРІРѕ. @{target_username} С‚РµРїРµСЂСЊ РёРјРµРµС‚ {format_balance(target['balance'])} РјРѕРЅРµС‚."
+            f"Готово. @{target_username} теперь имеет {format_balance(target['balance'])} монет."
         )
 
     @dp.message(Command("admin_take"))
     async def admin_take_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parsed = parse_admin_balance_cmd(message.text or "")
         if parsed is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_take <@username> <amount>")
+            await message.answer("Использование: /admin_take <@username> <amount>")
             return
         target_username, amount = parsed
         if amount <= 0:
-            await message.answer("РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0.")
+            await message.answer("Сумма должна быть больше 0.")
             return
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["balance"] = max(0, target["balance"] - amount)
         storage.update_user(target_key, target)
         await message.answer(
-            f"Р“РѕС‚РѕРІРѕ. РЈ @{target_username} СЃРїРёСЃР°РЅРѕ {format_balance(amount)}. "
-            f"Р‘Р°Р»Р°РЅСЃ: {format_balance(target['balance'])}"
+            f"Готово. У @{target_username} списано {format_balance(amount)}. "
+            f"Баланс: {format_balance(target['balance'])}"
         )
 
     @dp.message(Command("admin_addxp"))
     async def admin_addxp_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parsed = parse_admin_balance_cmd(message.text or "")
         if parsed is None:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_addxp <@username> <amount>")
+            await message.answer("Использование: /admin_addxp <@username> <amount>")
             return
         target_username, amount = parsed
         if amount <= 0:
-            await message.answer("XP РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0.")
+            await message.answer("XP должно быть больше 0.")
             return
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         gained_levels, _ = add_xp(target, amount)
         storage.update_user(target_key, target)
         await message.answer(
-            f"Р’С‹РґР°РЅРѕ {amount} XP РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ @{target_username}. "
-            f"РЈСЂРѕРІРµРЅСЊ: {target['level']} (+{gained_levels}), XP: {target['xp']}"
+            f"Выдано {amount} XP пользователю @{target_username}. "
+            f"Уровень: {target['level']} (+{gained_levels}), XP: {target['xp']}"
         )
 
     @dp.message(Command("admin_all_money"))
     async def admin_all_money_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_all_money <amount>")
+            await message.answer("Использование: /admin_all_money <amount>")
             return
         try:
             amount = int(parts[1])
         except ValueError:
-            await message.answer("РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡РёСЃР»РѕРј.")
+            await message.answer("Сумма должна быть числом.")
             return
         if amount <= 0:
-            await message.answer("РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0.")
+            await message.answer("Сумма должна быть больше 0.")
             return
 
         users = storage.all_users()
@@ -953,26 +953,26 @@ async def main() -> None:
             users[uid] = user
         storage._write(users)
         await message.answer(
-            f"Р’С‹РґР°Р» РІСЃРµРј РёРіСЂРѕРєР°Рј РїРѕ {format_balance(amount)} РјРѕРЅРµС‚.\n"
-            f"Р—Р°С‚СЂРѕРЅСѓС‚Рѕ Р°РєРєР°СѓРЅС‚РѕРІ: {len(users)}"
+            f"Выдал всем игрокам по {format_balance(amount)} монет.\n"
+            f"Затронуто аккаунтов: {len(users)}"
         )
 
     @dp.message(Command("admin_all_level"))
     async def admin_all_level_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_all_level <levels>")
+            await message.answer("Использование: /admin_all_level <levels>")
             return
         try:
             levels = int(parts[1])
         except ValueError:
-            await message.answer("РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРІРЅРµР№ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ С‡РёСЃР»РѕРј.")
+            await message.answer("Количество уровней должно быть числом.")
             return
         if levels <= 0:
-            await message.answer("РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРІРЅРµР№ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0.")
+            await message.answer("Количество уровней должно быть больше 0.")
             return
 
         users = storage.all_users()
@@ -982,65 +982,65 @@ async def main() -> None:
             users[uid] = user
         storage._write(users)
         await message.answer(
-            f"Р’С‹РґР°Р» РІСЃРµРј РёРіСЂРѕРєР°Рј +{levels} СѓСЂРѕРІРЅРµР№.\n"
-            f"Р—Р°С‚СЂРѕРЅСѓС‚Рѕ Р°РєРєР°СѓРЅС‚РѕРІ: {len(users)}"
+            f"Выдал всем игрокам +{levels} уровней.\n"
+            f"Затронуто аккаунтов: {len(users)}"
         )
 
     @dp.message(Command("admin_reset_money"))
     async def admin_reset_money_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_reset_money <@username>")
+            await message.answer("Использование: /admin_reset_money <@username>")
             return
         target_username = parts[1].removeprefix("@").lower()
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["balance"] = 0
         storage.update_user(target_key, target)
-        await message.answer(f"Р‘Р°Р»Р°РЅСЃ @{target_username} РѕР±РЅСѓР»РµРЅ.")
+        await message.answer(f"Баланс @{target_username} обнулен.")
 
     @dp.message(Command("admin_reset_xp"))
     async def admin_reset_xp_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2:
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_reset_xp <@username>")
+            await message.answer("Использование: /admin_reset_xp <@username>")
             return
         target_username = parts[1].removeprefix("@").lower()
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["xp"] = 0
         target["level"] = 1
         storage.update_user(target_key, target)
-        await message.answer(f"XP Рё СѓСЂРѕРІРµРЅСЊ @{target_username} РѕР±РЅСѓР»РµРЅС‹.")
+        await message.answer(f"XP и уровень @{target_username} обнулены.")
 
     @dp.message(Command("admin_all_reset_money"))
     async def admin_all_reset_money_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         users = storage.all_users()
         for uid, user in users.items():
             user["balance"] = 0
             users[uid] = user
         storage._write(users)
-        await message.answer(f"РћР±РЅСѓР»РёР» Р±Р°Р»Р°РЅСЃ РІСЃРµРј РёРіСЂРѕРєР°Рј. Р—Р°С‚СЂРѕРЅСѓС‚Рѕ: {len(users)}")
+        await message.answer(f"Обнулил баланс всем игрокам. Затронуто: {len(users)}")
 
     @dp.message(Command("admin_all_reset_xp"))
     async def admin_all_reset_xp_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         users = storage.all_users()
         for uid, user in users.items():
@@ -1048,63 +1048,63 @@ async def main() -> None:
             user["level"] = 1
             users[uid] = user
         storage._write(users)
-        await message.answer(f"РћР±РЅСѓР»РёР» XP Рё СѓСЂРѕРІРЅРё РІСЃРµРј РёРіСЂРѕРєР°Рј. Р—Р°С‚СЂРѕРЅСѓС‚Рѕ: {len(users)}")
+        await message.answer(f"Обнулил XP и уровни всем игрокам. Затронуто: {len(users)}")
 
     @dp.message(Command("admin_stats"))
     async def admin_stats_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         users = storage.all_users()
         total_users = len(users)
         total_balance = sum(u.get("balance", 0) for u in users.values())
         total_games = sum(u.get("games_played", 0) for u in users.values())
         await message.answer(
-            f"рџ“Љ РЎС‚Р°С‚РёСЃС‚РёРєР°:\n"
-            f"РџРѕР»СЊР·РѕРІР°С‚РµР»РµР№: {total_users}\n"
-            f"Р’СЃРµРіРѕ РјРѕРЅРµС‚ РІ СЃРёСЃС‚РµРјРµ: {format_balance(total_balance)}\n"
-            f"Р’СЃРµРіРѕ СЃС‹РіСЂР°РЅРѕ РёРіСЂ: {total_games}"
+            f"📊 Статистика:\n"
+            f"Пользователей: {total_users}\n"
+            f"Всего монет в системе: {format_balance(total_balance)}\n"
+            f"Всего сыграно игр: {total_games}"
         )
 
     @dp.message(Command("admin_gamegift"))
     async def admin_gamegift_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 4 or not parts[2].isdigit() or not parts[3].isdigit():
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /admin_gamegift <@username> <coins> <xp>")
+            await message.answer("Использование: /admin_gamegift <@username> <coins> <xp>")
             return
         target_username = parts[1].removeprefix("@").lower()
         coins = int(parts[2])
         xp_value = int(parts[3])
         target_pair = storage.get_by_username(target_username)
         if target_pair is None:
-            await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ. РћРЅ РґРѕР»Р¶РµРЅ С…РѕС‚СЏ Р±С‹ СЂР°Р· РЅР°РїРёСЃР°С‚СЊ Р±РѕС‚Сѓ.")
+            await message.answer("Пользователь не найден. Он должен хотя бы раз написать боту.")
             return
         target_key, target = target_pair
         target["balance"] += coins
         gained_levels, _ = add_xp(target, xp_value)
         storage.update_user(target_key, target)
         await message.answer(
-            f"РРІРµРЅС‚-РЅР°РіСЂР°РґР° РІС‹РґР°РЅР° @{target_username}: +{format_balance(coins)} РјРѕРЅРµС‚, +{xp_value} XP. "
-            f"LVL +{gained_levels}, Р±Р°Р»Р°РЅСЃ: {format_balance(target['balance'])}."
+            f"Ивент-награда выдана @{target_username}: +{format_balance(coins)} монет, +{xp_value} XP. "
+            f"LVL +{gained_levels}, баланс: {format_balance(target['balance'])}."
         )
 
     @dp.message(Command("mute"))
     async def mute_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         if message.chat.type == "private":
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РІ РіСЂСѓРїРїРµ.")
+            await message.answer("Эта команда работает только в группе.")
             return
         if not message.reply_to_message or not message.reply_to_message.from_user:
-            await message.answer("РћС‚РІРµС‚СЊ РЅР° СЃРѕРѕР±С‰РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: /mute <РјРёРЅСѓС‚С‹>")
+            await message.answer("Ответь на сообщение пользователя: /mute <минуты>")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2 or not parts[1].isdigit():
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /mute <РјРёРЅСѓС‚С‹> (reply)")
+            await message.answer("Использование: /mute <минуты> (reply)")
             return
         minutes = max(1, min(1440, int(parts[1])))
         target_id = message.reply_to_message.from_user.id
@@ -1115,18 +1115,18 @@ async def main() -> None:
             permissions=ChatPermissions(can_send_messages=False),
             until_date=until_date,
         )
-        await message.answer(f"РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°РјСѓС‡РµРЅ РЅР° {minutes} РјРёРЅ.")
+        await message.answer(f"Пользователь замучен на {minutes} мин.")
 
     @dp.message(Command("unmute"))
     async def unmute_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         if message.chat.type == "private":
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РІ РіСЂСѓРїРїРµ.")
+            await message.answer("Эта команда работает только в группе.")
             return
         if not message.reply_to_message or not message.reply_to_message.from_user:
-            await message.answer("РћС‚РІРµС‚СЊ РЅР° СЃРѕРѕР±С‰РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: /unmute")
+            await message.answer("Ответь на сообщение пользователя: /unmute")
             return
         target_id = message.reply_to_message.from_user.id
         await bot.restrict_chat_member(
@@ -1149,23 +1149,23 @@ async def main() -> None:
                 can_manage_topics=False,
             ),
         )
-        await message.answer("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЂР°Р·РјСѓС‡РµРЅ.")
+        await message.answer("Пользователь размучен.")
 
     @dp.message(Command("slowmode"))
     async def slowmode_handler(message: Message) -> None:
         if not admin_only(message):
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅР°.")
+            await message.answer("Эта команда только для админа.")
             return
         if message.chat.type == "private":
-            await message.answer("Р­С‚Р° РєРѕРјР°РЅРґР° СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РІ РіСЂСѓРїРїРµ.")
+            await message.answer("Эта команда работает только в группе.")
             return
         parts = (message.text or "").strip().split()
         if len(parts) != 2 or not parts[1].isdigit():
-            await message.answer("РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: /slowmode <СЃРµРєСѓРЅРґС‹>\nРџСЂРёРјРµСЂ: /slowmode 10")
+            await message.answer("Использование: /slowmode <секунды>\nПример: /slowmode 10")
             return
         seconds = max(0, min(3600, int(parts[1])))
         await bot.set_chat_slow_mode_delay(chat_id=message.chat.id, slow_mode_delay=seconds)
-        await message.answer(f"РљР” С‡Р°С‚Р° СѓСЃС‚Р°РЅРѕРІР»РµРЅ: {seconds} СЃРµРє.")
+        await message.answer(f"КД чата установлен: {seconds} сек.")
 
     await dp.start_polling(bot)
 
